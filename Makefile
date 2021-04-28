@@ -2,4 +2,4 @@
 build: 
 	go build -v ./cmd/apiserver
 
-.DEFAULT _FOAL := build
+.DEFAULT_GOAL := build

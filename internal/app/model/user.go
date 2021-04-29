@@ -1,15 +1,28 @@
 package model
 
-import "golang.org/x/crypto/bcrypt"
+import (
+	"github.com/asaskevich/govalidator"
+	"golang.org/x/crypto/bcrypt"
+)
 
 type User struct {
-	ID int
-	Email string
-	Password string
+	ID                int
+	Email             string `valid:"email,required"`
+	Password          string `valid:"type(string),required"`
 	EncryptedPassword string
 }
 
+func (u *User) Validate() error {
+	_, err := govalidator.ValidateStruct(u)
+
+	return err
+}
+
 func (u *User) BeforeCreate() error {
+	if err := u.Validate(); err != nil {
+		return err
+	}
+
 	if len(u.Password) > 0 {
 		enc, err := encryptString(u.Password)
 
@@ -19,6 +32,7 @@ func (u *User) BeforeCreate() error {
 
 		u.EncryptedPassword = enc
 	}
+
 	return nil
 }
 

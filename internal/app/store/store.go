@@ -5,14 +5,15 @@ import (
 
 	_ "github.com/lib/pq"
 )
+
 type Store struct {
-	config *Config
-	db *sql.DB
+	config         *Config
+	db             *sql.DB
 	userRepository *UserRepository
 }
 
 func New(config *Config) *Store {
-	return &Store {
+	return &Store{
 		config: config,
 	}
 }

@@ -8,7 +8,7 @@ import (
 type User struct {
 	ID                int
 	Email             string `valid:"email,required"`
-	Password          string `valid:"type(string),required"`
+	Password          string `valid:"type(string),required,length(6|20)"`
 	EncryptedPassword string
 }
 

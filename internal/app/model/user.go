@@ -6,16 +6,20 @@ import (
 )
 
 type User struct {
-	ID                int
-	Email             string `valid:"email,required"`
-	Password          string `valid:"type(string),required,length(6|20)"`
-	EncryptedPassword string
+	ID                int    `json:"id"`
+	Email             string `valid:"email,required" json:"email"`
+	Password          string `valid:"type(string),required,length(6|20)" json:"password,omitempty"`
+	EncryptedPassword string `json:"-"`
 }
 
 func (u *User) Validate() error {
 	_, err := govalidator.ValidateStruct(u)
 
 	return err
+}
+
+func (u *User) Sanitize() {
+	u.Password = ""
 }
 
 func (u *User) BeforeCreate() error {
